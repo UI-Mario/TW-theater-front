@@ -86,3 +86,11 @@ export function getSimilarMovie (id) {
     methods: 'get'
   })
 }
+
+export function getCategoryMoviesByCount (genres, year, tag, start, count) {
+  const url = `http://localhost:8080/movie/category/genres=${genres}&year=${year}&tag=${tag}&start=${start}&count=${count}`
+  return myAxios({
+    url,
+    methods: 'get'
+  })
+}

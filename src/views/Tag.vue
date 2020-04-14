@@ -27,7 +27,7 @@
 
     <div class="content" v-loading="loading">
       <div class="top250">
-        <MovieList :movielist="top250movielist" />
+        <MovieList :movielist="movielist" />
       </div>
     </div>
     <div class="load-more" @click="loadMore()">
@@ -37,10 +37,9 @@
 </template>
 
 <script>
-// import Slideitem2 from '@/components/SlideItem2.vue'
 import MovieList from '@/components/MovieList.vue'
 
-import { getTop250ByCount } from '@/network/request'
+import { getCategoryMoviesByCount } from '@/network/request'
 
 export default {
   name: 'tag',
@@ -50,14 +49,12 @@ export default {
   },
   data () {
     return {
-      currentindex: 0, // 0: now, 1: top
-      top250movielist: [],
+      movielist: [],
       loading: false,
-      top250start: 0,
+      start: 0,
       count: 20,
-      data2top: false,
       selectGenre: '',
-      selectYear: '',
+      selectYear: '1960',
       selectTag: '',
       genres: ['全部', '喜剧', '动作', '爱情', '科幻', '动画', '悬疑', '惊悚', '恐怖', '冒险', '灾难'],
       year: ['全部', '2020', '2019', '10年代', '00年代', '90年代'],
@@ -67,7 +64,8 @@ export default {
   methods: {
     getMovieByGenre: function (value) {
       // console.log(this.$refs.genre)
-      this.selectGenre = value
+      this.selectGenre = value !== '全部' ? value : ''
+      console.log(this.selectGenre)
       for (let i = 0; i < this.$refs.genre.length; i++) {
         this.$refs.genre[i].parentNode.className = 'category'
         if (this.$refs.genre[i].innerText === value) {
@@ -75,28 +73,43 @@ export default {
         }
       }
       if (value === '全部') {
-        alert('yes')
+        // alert('yes')
+        console.log('quanbu')
       }
       // alert(value)
       // alert('yes')
+      this.getCategory()
     },
     getMovieByYear: function (value) {
-      this.selectYear = value
+      this.selectYear = value !== '全部' ? value : ''
       for (let i = 0; i < this.$refs.year.length; i++) {
         this.$refs.year[i].parentNode.className = 'category'
         if (this.$refs.year[i].innerText === value) {
           this.$refs.year[i].parentNode.className = 'category-select'
         }
       }
+      this.getCategory()
     },
     getMovieByTag: function (value) {
-      this.selectTag = value
+      this.selectTag = value !== '全部' ? value : ''
       for (let i = 0; i < this.$refs.tag.length; i++) {
         this.$refs.tag[i].parentNode.className = 'category'
         if (this.$refs.tag[i].innerText === value) {
           this.$refs.tag[i].parentNode.className = 'category-select'
         }
       }
+      this.getCategory()
+    },
+    getCategory: function () {
+      this.selectYear = this.selectYear.charAt(this.selectYear.length - 1) === '代' ? this.selectYear.substring(0, 2) : this.selectYear
+      if (this.selectYear.length === 2) {
+        this.selectYear = this.selectYear > 20 ? 19 + this.selectYear : 20 + this.selectYear
+      }
+      console.log(this.selectYear)
+      getCategoryMoviesByCount(this.selectGenre, this.selectYear, this.selectTag, this.start, this.count).then(res => {
+        this.movielist = res.data
+        this.loading = false
+      })
     },
     init: function () {
       this.$refs.genre[0].parentNode.className = 'category-select'
@@ -105,16 +118,18 @@ export default {
     },
     loadMore: function () {
       this.$refs.more.innerText = '加载中'
-      this.top250start += this.count
-      getTop250ByCount(this.top250start, this.count).then(res => {
-        this.top250movielist.push(...res.data)
+      this.start += this.count
+      getCategoryMoviesByCount(this.selectGenre, this.selectYear, this.selectTag, this.start, this.count).then(res => {
+        this.movielist.push(...res.data)
+        console.log(this.movielist)
         this.loading = false
       })
     }
   },
   created () {
-    getTop250ByCount(this.top250start, this.count).then(res => {
-      this.top250movielist = res.data
+    getCategoryMoviesByCount(this.selectGenre, this.selectYear, this.selectTag, this.start, this.count).then(res => {
+      this.movielist.push(...res.data)
+      console.log(this.movielist)
       this.loading = false
     })
   },
