@@ -51,8 +51,8 @@ export function getWeekMovies () {
   })
 }
 
-export function testsearch () {
-  const url = `/v2/movie/top250&start=1&count=40`
+export function search (value) {
+  const url = `http://localhost:8080/movie/search/keyword=${value}`
   return myAxios({
     url,
     methods: 'get'

@@ -16,15 +16,19 @@
       <router-link to="/">
           <span>豆瓣电影</span>
       </router-link>
-      <input placeholder="电影、影人、影院、电视剧">
-      <div class="search-btn">
-        <img src="https://s2.ax1x.com/2020/01/17/lzAWfH.png" alt="">
+      <input placeholder="电影、影人、影院、电视剧" ref="searchInput">
+      <div @click="saveText()" class="search-btn">
+        <!-- <router-link :to="{ name: 'search', params: { text: text }}" class="search-btn"> -->
+          <img src="https://s2.ax1x.com/2020/01/17/lzAWfH.png" alt="">
+        <!-- </router-link> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+// import { search } from '@/network/request'
+
 export default {
   data () {
     return {
@@ -101,7 +105,20 @@ export default {
           title: '影评',
           url: '/'
         }
-      ]
+      ],
+      text: ''
+    }
+  },
+  methods: {
+    saveText: function () {
+      this.text = this.$refs.searchInput.value
+      // console.log(this.$refs.searchInput.value)
+      this.$router.push({
+        name: 'search',
+        params: {
+          text: this.text
+        }
+      })
     }
   }
 }

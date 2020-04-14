@@ -26,7 +26,7 @@ export default {
   methods: {
     goTo: function (id) {
       this.$router.replace('/subject/' + id)
-      this.$router.go(0)
+      // this.$router.go(0)
     }
   }
 }

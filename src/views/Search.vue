@@ -1,9 +1,8 @@
 <template>
   <div class="chart" v-loading="loading">
-    <h1>豆瓣电影排行榜</h1>
-    <h2>豆瓣新片榜 · · · · · ·</h2>
+    <h1>搜索 {{text}}</h1>
     <div
-      v-for="(item, index) in newmovielist"
+      v-for="(item, index) in movielist"
       :key="index"
     >
       <div class="hr"></div>
@@ -41,15 +40,16 @@
 
 <script>
 import Rate from '@/components/Rate.vue'
-import { getNewMovies } from '@/network/request'
+import { search } from '@/network/request'
 
 export default {
-  name: 'chart',
+  name: 'search',
   components: { Rate },
   data () {
     return {
-      newmovielist: [],
-      loading: false
+      movielist: [],
+      loading: false,
+      text: ''
     }
   },
   filters: {
@@ -57,14 +57,26 @@ export default {
       return value / 2
     }
   },
+  mounted () {
+    this.loading = false
+    this.text = this.$route.params.text
+  },
   created () {
-    getNewMovies().then(res => {
-      this.newmovielist = res.data
+    search(this.$route.params.text).then(res => {
+      this.movielist = res.data
       this.loading = false
     })
   },
-  mounted () {
-    this.loading = false
+  watch: {
+    '$route.path' (to, from) {
+      alert(this.$route.path)
+      this.$router.push({
+        name: 'search',
+        params: {
+          text: this.$route.params.text
+        }
+      })
+    }
   }
 }
 </script>
