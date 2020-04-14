@@ -20,29 +20,17 @@
           <a href="" v-if="item.title !== item.originalTitle">{{item.title}}/{{item.originalTitle}}</a>
           <a href="" v-else>{{item.title}}</a>
           <br>
-          <span
-            v-for="(pubdate, index) in item.pubdates"
-            :key="'pub'+index"
-          >
-            {{pubdate}}/
+          <span>
+            {{item.pubdates}}/
           </span>
-          <span
-            v-for="(director, index) in item.director"
-            :key="'direc'+index"
-          >
-            {{director}}/
+          <span>
+            {{item.director}}/
           </span>
-          <span
-            v-for="(cast, index) in item.cast"
-            :key="'cast'+index"
-          >
-            {{cast}}/
+          <span>
+            {{item.cast}}/
           </span>
-          <span
-            v-for="(genre, index) in item.genres"
-            :key="'genre'+index"
-          >
-            {{genre}}/
+          <span>
+            {{item.genres}}/
           </span>
           <Rate :rating="item.rating|calc2" />
         </div>
