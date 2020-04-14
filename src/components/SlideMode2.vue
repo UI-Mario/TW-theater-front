@@ -125,7 +125,7 @@ export default {
   }
   .slide {
     width: 675px;
-    height: 430px;
+    height: 440px;
     .slide-contain {
       width: 100%;
       height: 100%;
