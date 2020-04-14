@@ -4,14 +4,14 @@
       <router-link :to="'/subject/'+movieitem.id">
         <img
           class="poster"
-          :src="movieitem.images.medium"
+          :src="movieitem.images"
           alt=""
         >
       </router-link>
     </div>
     <div class="contain">
       {{movieitem.title}}
-      <span class="rate">{{movieitem.rating.average}}</span>
+      <span class="rate">{{movieitem.rating}}</span>
     </div>
   </div>
 </template>

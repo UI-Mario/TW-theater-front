@@ -27,7 +27,7 @@
 // import Slideitem2 from '@/components/SlideItem2.vue'
 import MovieList from '@/components/MovieList.vue'
 
-import { getNowMovieByCount, getTop250ByCount } from '@/network/request'
+import { getNewMoviesByCount, getTop250ByCount } from '@/network/request'
 
 export default {
   name: 'explore',
@@ -64,32 +64,32 @@ export default {
       this.$refs.more.innerText = '加载中'
       if (this.currentindex === 0) {
         this.nowstart += this.count
-        getNowMovieByCount(this.nowstart, this.count).then(res => {
-          this.nowmovielist.push(...res.data.subjects)
+        getNewMoviesByCount(this.nowstart, this.count).then(res => {
+          this.nowmovielist.push(...res.data)
           console.log(this.nowmovielist)
           this.loading = false
         })
       } else {
         this.top250start += this.count
         getTop250ByCount(this.top250start, this.count).then(res => {
-          this.top250movielist.push(...res.data.subjects)
+          this.top250movielist.push(...res.data)
           this.loading = false
         })
       }
     }
   },
   created () {
-    getNowMovieByCount(this.nowstart, this.count).then(res => {
+    getNewMoviesByCount(this.nowstart, this.count).then(res => {
       console.log('this is getnowmie')
       // console.log(typeof res.data.subjects)
-      this.nowmovielist = res.data.subjects
+      this.nowmovielist = res.data
       this.loading = false
       // this.nowstart += 20
     })
     getTop250ByCount(this.top250start, this.count).then(res => {
       // console.log('this is 250movie')
       // console.log(res.data.subjects)
-      this.top250movielist = res.data.subjects
+      this.top250movielist = res.data
       this.loading = false
     })
   },

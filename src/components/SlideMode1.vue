@@ -30,7 +30,7 @@
       >
         <Slideitem
           :movieitem="movie"
-          :rating="movie.rating.average/2"
+          :rating="movie.rating/2"
         />
       </div>
     </div>
@@ -79,9 +79,9 @@ export default {
   },
   created () {
     getAllNowMovie().then(res => {
-      // console.log('this is getallnowmovie')
-      console.log(res.data.subjects)
-      this.movielist = res.data.subjects
+      console.log('this is getallnowmovie')
+      console.log(res.data)
+      this.movielist = res.data
       this.loading = false
     })
   }

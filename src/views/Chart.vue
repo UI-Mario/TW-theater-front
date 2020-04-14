@@ -11,13 +11,13 @@
         <router-link :to="'/subject/'+item.id">
           <div class="img-contain">
             <img
-              :src="item.images.medium"
+              :src="item.images"
               alt=""
             >
           </div>
         </router-link>
         <div class="indent-right">
-          <a href="" v-if="item.title !== item.original_title">{{item.title}}/{{item.original_title}}</a>
+          <a href="" v-if="item.title !== item.originalTitle">{{item.title}}/{{item.originalTitle}}</a>
           <a href="" v-else>{{item.title}}</a>
           <br>
           <span
@@ -27,16 +27,16 @@
             {{pubdate}}/
           </span>
           <span
-            v-for="(director, index) in item.directors"
+            v-for="(director, index) in item.director"
             :key="'direc'+index"
           >
-            {{director.name}}/
+            {{director}}/
           </span>
           <span
-            v-for="(cast, index) in item.casts"
+            v-for="(cast, index) in item.cast"
             :key="'cast'+index"
           >
-            {{cast.name}}/
+            {{cast}}/
           </span>
           <span
             v-for="(genre, index) in item.genres"
@@ -44,7 +44,7 @@
           >
             {{genre}}/
           </span>
-          <Rate :rating="item.rating.average|calc2" />
+          <Rate :rating="item.rating|calc2" />
         </div>
       </div>
     </div>
@@ -71,7 +71,7 @@ export default {
   },
   created () {
     getNewMovies().then(res => {
-      this.newmovielist = res.data.subjects
+      this.newmovielist = res.data
       this.loading = false
     })
     testsearch().then(res => {

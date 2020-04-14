@@ -12,7 +12,7 @@
               style="font-size: 17px; color: #000; margin-bottom: 10px;"
               v-if="movieitem.title!==movieitem.original_title"
             >
-              {{movieitem.title}}{{movieitem.original_title}}
+              {{movieitem.title}}{{movieitem.originalTitle}}
             </p>
             <p
               style="font-size: 17px; color: #000; margin-bottom: 10px;"
@@ -28,8 +28,8 @@
           >
           </el-rate>
           <span style="color: #e09015" class="rateNum">{{movieitem.rating.average}}</span> -->
-            <Rate :rating="movieitem.rating.average/2" />
-            <p style="font-size: 12px; margin-top: 10px;margin-bottom:10px;">{{movieitem.durations[0]}}</p>
+            <Rate :rating="movieitem.rating/2" />
+            <p style="font-size: 12px; margin-top: 10px;margin-bottom:10px;">{{movieitem.durations}}</p>
             <span style="font-size: 12px">导演
               <span
                 v-for="(item,i) in movieitem.directors"
@@ -38,16 +38,13 @@
             </span>
             <br>
             <span style="font-size: 12px">主演
-              <span
-                v-for="(item,i) in movieitem.casts"
-                :key="i"
-              > {{item.name}}</span>
+              <span> {{movieitem.director}}</span>
             </span>
             <br>
 
           </div>
           <img
-            :src="movieitem.images.medium"
+            :src="movieitem.images"
             alt=""
             slot="reference"
           >
@@ -57,9 +54,9 @@
     <li class="title"><a>{{movieitem.title}}</a></li>
     <li
       class="rating"
-      v-if="movieitem.rating.average!==0"
+      v-if="movieitem.rating!==0"
     >
-      <Rate :rating="movieitem.rating.average/2" />
+      <Rate :rating="movieitem.rating/2" />
     </li>
     <li
       class="rating"

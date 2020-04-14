@@ -15,7 +15,7 @@
       </div>
       <div class="slide-contain" v-else>
         <div v-for="(movie, index) in weekmovielist" :key="index">
-          <Slideitem2 v-if="index < 10" :movieitem="movie.subject"/>
+          <Slideitem2 v-if="index < 10" :movieitem="movie"/>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
 
 <script>
 import Slideitem2 from '@/components/SlideItem2.vue'
-import { getNewMovies, getWeekMovies } from '@/network/request'
+import { getNewMovies, getTop250ByCount } from '@/network/request'
 
 export default {
   name: 'slidemode2',
@@ -63,15 +63,12 @@ export default {
   },
   created () {
     getNewMovies().then(res => {
-      console.log('this is new')
-      console.log(res.data.subjects)
-      this.newmovielist = res.data.subjects
-      this.movielist = res.data.subjects
+      this.newmovielist = res.data
+      this.movielist = res.data
       this.loading = false
     })
-    getWeekMovies().then(res => {
-      console.log(res.data.subjects)
-      this.weekmovielist = res.data.subjects
+    getTop250ByCount(0, 10).then(res => {
+      this.weekmovielist = res.data
     })
   }
 }

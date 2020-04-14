@@ -15,7 +15,7 @@ export function getNowMovieByCount (start, count) {
 // 正在热映
 export function getAllNowMovie () {
   // const url = `/v2/movie/in_theaters?apikey=${apikey}`
-  const url = `/v2/movie/in_theaters`
+  const url = `http://localhost:8080/movie/in_theaters`
   return myAxios({
     url,
     methods: 'get'
@@ -25,7 +25,7 @@ export function getAllNowMovie () {
 // 最近热门电影
 export function getNewMovies () {
   // const url = `/v2/movie/new_movies?apikey=${apikey}`
-  const url = `/v2/movie/new_movies`
+  const url = `http://localhost:8080/movie/new_movies`
   return myAxios({
     url,
     methods: 'get'
@@ -34,7 +34,7 @@ export function getNewMovies () {
 
 export function getNewMoviesByCount (start, count) {
   // const url = `/v2/movie/new_movies?apikey=${apikey}&start=${start}&count=${count}`
-  const url = `/v2/movie/new_movies&start=${start}&count=${count}`
+  const url = `http://localhost:8080/movie/new_movies/start=${start}&count=${count}`
   return myAxios({
     url,
     methods: 'get'
@@ -62,7 +62,7 @@ export function testsearch () {
 // 电影详情页
 export function getMovieById (id) {
   // const url = `/v2/movie/subject?apikey=${apikey}/${id}`
-  const url = `/v2/movie/subject/${id}`
+  const url = `http://localhost:8080/movie/detail/${id}`
   return myAxios({
     url,
     methods: 'get'
@@ -71,7 +71,8 @@ export function getMovieById (id) {
 
 // top250
 export function getTop250ByCount (start, count) {
-  const url = `/v2/movie/top250&start=${start}&count=${count}`
+  // const url = `/v2/movie/top250&start=${start}&count=${count}`
+  const url = `http://localhost:8080/movie/top250/start=${start}&count=${count}`
   return myAxios({
     url,
     methods: 'get'
