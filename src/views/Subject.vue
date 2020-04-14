@@ -5,65 +5,73 @@
       <span v-if="movie.title !== movie.original_title">{{
         movie.original_title
       }}</span>
-      <span class="year">({{ movie.year }})</span>
+      <span class="year">({{ movie.year.substr(0,4) }})</span>
     </p>
     <div class="info">
       <div class="img-contain">
-        <img :src="movie.images.medium" alt />
+        <img :src="movie.images" alt />
       </div>
       <div class="movie-info">
         <p>
           导演：
           <span
-            v-for="(item, index) in movie.directors"
+            v-for="(item, index) in directorArray"
             :key="'director' + index"
-            >{{ item.name }}/</span
+            >{{ item }} / </span
           >
         </p>
         <p>
           编剧：
-          <span v-for="(item, index) in movie.writers" :key="'writer' + index"
-            >{{ item.name }}/</span
+          <span v-for="(item, index) in writerArray" :key="'writer' + index"
+            >{{ item }} / </span
           >
         </p>
         <p>
           主演：
-          <span v-for="(item, index) in movie.casts" :key="'cast' + index"
-            >{{ item.name }}/</span
+          <span v-for="(item, index) in castArray" :key="'cast' + index"
+            >{{ item}} / </span
           >
         </p>
         <p>
           类型：
-          <span v-for="(item, index) in movie.genres" :key="'genre' + index"
-            >{{ item }}/</span
+          <span v-for="(item, index) in genresArray" :key="'genre' + index"
+            >{{ item }} / </span
           >
         </p>
         <p>
           制片国家/地区：
           <span
-            v-for="(item, index) in movie.countries"
+            v-for="(item, index) in countriesAray"
             :key="'country' + index"
-            >{{ item }}/</span
+            >{{ item }} / </span
           >
         </p>
         <p>
           语言：
-          <span v-for="(item, index) in movie.languages" :key="'lan' + index"
-            >{{ item }}/</span
+          <span v-for="(item, index) in languagesArray" :key="'lan' + index"
+            >{{ item }} / </span
           >
         </p>
         <p>
           上映日期：
-          <span v-for="(item, index) in movie.pubdates" :key="'pub' + index"
-            >{{ item }}/</span
+          <span v-for="(item, index) in pubdatesArray" :key="'pub' + index"
+            >{{ item }} / </span
           >
         </p>
         <p>
           片长：
           <span
-            v-for="(item, index) in movie.durations"
+            v-for="(item, index) in durationsArray"
             :key="'duration' + index"
-            >{{ item }}/</span
+            >{{ item }} / </span
+          >
+        </p>
+        <p>
+          又名：
+          <span
+            v-for="(item, index) in akaArray"
+            :key="'aka' + index"
+            >{{ item }} / </span
           >
         </p>
       </div>
@@ -71,11 +79,11 @@
         <p>豆瓣评分</p>
         <div class="rate-contain">
           <div class="left">
-            <span>{{ movie.rating.average }}</span>
+            <span>{{ movie.rating }}</span>
           </div>
           <div class="right">
             <div>
-              <Rate :rating="movie.rating.average / 2" />
+              <Rate :rating="movie.rating / 2" />
               <span>{{ movie.ratings_count }}人评价</span>
             </div>
           </div>
@@ -142,65 +150,49 @@
       <h2>{{ movie.title }}的剧情简介· · · · · ·</h2>
       <p>{{ movie.summary }}</p>
     </div>
-    <div class="celebrities">
-      <h2>{{ movie.title }}的演职员· · · · · ·</h2>
-      <div class="cele-contain">
-        <div
-          class="cele-item"
-          v-for="(director, index) in movie.directors"
-          :key="'director' + index"
-        >
-          <div class="img-contain">
-            <img :src="director.avatars.medium" alt />
-          </div>
-          <p>{{ director.name }}</p>
-        </div>
-        <div
-          class="cele-item"
-          v-for="(cast, index) in movie.casts"
-          :key="index"
-        >
-          <div class="img-contain">
-            <img :src="cast.avatars.medium" alt />
-          </div>
-          <p>{{ cast.name }}</p>
-        </div>
-      </div>
-    </div>
-    <div class="comments-section">
-      <h2>{{ movie.title }}的短评· · · · · ·</h2>
-      <div
-        class="comment-contain"
-        v-for="(item, index) in movie.popular_comments"
-        :key="index"
-      >
-        <div class="top">
-          <span>{{ item.author.name }}</span>
-          <Rate :rating="item.rating.value" />
-        </div>
-        <span>{{ item.content }}</span>
-      </div>
+    <div class="similar-movie">
+      <h2>喜欢这部电影的人也喜欢 · · · · · ··</h2>
+      <MovieList :movielist="similarMovie" />
     </div>
   </div>
 </template>
 
 <script>
-import { getMovieById } from '@/network/request'
+import { getMovieById, getSimilarMovie } from '@/network/request'
 
 import Rate from '@/components/Rate.vue'
+import MovieList from '@/components/MovieList.vue'
 
 export default {
   name: 'subject',
-  components: { Rate },
+  components: {
+    Rate,
+    MovieList
+  },
   data () {
     return {
       movie: [],
+      similarMovie: [],
       loading: false
     }
   },
   created () {
     getMovieById(this.$route.params.id).then(res => {
       this.movie = res.data
+      this.writerArray = this.movie.writers.split(',')
+      this.directorArray = this.movie.director.split(',')
+      this.castArray = this.movie.cast.split(',')
+      this.genresArray = this.movie.genres.split(',')
+      this.countriesAray = this.movie.countries.split(',')
+      this.languagesArray = this.movie.languages.split(',')
+      this.pubdatesArray = this.movie.pubdates.split(',')
+      this.durationsArray = this.movie.durations.split(',')
+      this.akaArray = this.movie.aka.split(',')
+      console.log(res.data)
+      this.loading = false
+    })
+    getSimilarMovie(this.$route.params.id).then(res => {
+      this.similarMovie = res.data
       console.log(res.data)
       this.loading = false
     })
@@ -321,58 +313,17 @@ export default {
       text-indent: 26px;
     }
   }
-  .celebrities {
+  .similar-movie {
     h2 {
       font-size: 16px;
       color: #007722;
-      margin: 20px 0 15px 0;
+      margin-bottom: 15px;
+      margin-top: 15px;
     }
-    .cele-contain {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      overflow: scroll;
-      height: 181px;
-      .cele-item {
-        width: 95px;
-        text-align: center;
-        .img-contain {
-          width: 95px;
-          height: 115px;
-        }
-        p {
-          font-size: 13px;
-          color: #111111;
-        }
-      }
-    }
-  }
-  .comments-section {
-    h2 {
-      font-size: 16px;
-      color: #007722;
-      margin: 20px 0 15px 0;
-    }
-    .comment-contain {
-      width: 100%;
-      border-top: 1px solid #dbdbdb;
-      padding-top: 10px;
-      margin-top: 10px;
-      .top {
-        display: flex;
-        flex-direction: row;
-        // margin-bottom: 10px;
-        // justify-content: center;
-        span {
-          margin-right: 10px;
-          font-size: 13px;
-          color: #3377aa;
-        }
-      }
-      span {
-        font-size: 13px;
-        color: #494949;
-      }
+    p {
+      font-size: 13px;
+      color: #111111;
+      text-indent: 26px;
     }
   }
 }

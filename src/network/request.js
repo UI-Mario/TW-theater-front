@@ -78,3 +78,11 @@ export function getTop250ByCount (start, count) {
     methods: 'get'
   })
 }
+
+export function getSimilarMovie (id) {
+  const url = `http://localhost:8080/movie/similar_movies/movieId=${id}`
+  return myAxios({
+    url,
+    methods: 'get'
+  })
+}
