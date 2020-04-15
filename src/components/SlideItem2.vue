@@ -7,6 +7,7 @@
             class="poster"
             :src="movieitem.images"
             alt=""
+            referrerpolicy ="never"
           >
         </div>
       </router-link>

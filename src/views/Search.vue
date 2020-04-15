@@ -12,6 +12,7 @@
             <img
               :src="item.images"
               alt=""
+              referrerpolicy ="never"
             >
           </div>
         </router-link>

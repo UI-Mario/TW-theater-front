@@ -47,6 +47,7 @@
             :src="movieitem.images"
             alt=""
             slot="reference"
+            referrerpolicy ="never"
           >
         </el-popover>
       </router-link>
