@@ -94,3 +94,11 @@ export function getCategoryMoviesByCount (genres, year, tag, start, count) {
     methods: 'get'
   })
 }
+
+export function getCommentsByMovieId (movieId) {
+  const url = `http://localhost:8080/movie/comment/${movieId}`
+  return myAxios({
+    url,
+    methods: 'get'
+  })
+}

@@ -151,14 +151,34 @@
       <p>{{ movie.summary }}</p>
     </div>
     <div class="similar-movie">
-      <h2>喜欢这部电影的人也喜欢 · · · · · ··</h2>
+      <h2>喜欢这部电影的人也喜欢 · · · · · ·</h2>
       <MovieList :movielist="similarMovie" />
+    </div>
+    <div class="comments-section">
+      <h2>{{ movie.title }}的短评· · · · · ·</h2>
+      <div
+        class="comment-contain"
+        v-for="(item, index) in popularComments"
+        :key="index"
+      >
+        <div class="top">
+          <img
+            :src="item.avatar"
+            alt=""
+            slot="reference"
+            referrerpolicy ="never"
+          />
+          <span>{{ item.authorName }}</span>
+          <Rate :rating="item.rating" />
+        </div>
+        <span>{{ item.review }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getMovieById, getSimilarMovie } from '@/network/request'
+import { getMovieById, getSimilarMovie, getCommentsByMovieId } from '@/network/request'
 
 import Rate from '@/components/Rate.vue'
 import MovieList from '@/components/MovieList.vue'
@@ -173,7 +193,8 @@ export default {
     return {
       movie: [],
       similarMovie: [],
-      loading: false
+      loading: false,
+      popularComments: []
     }
   },
   created () {
@@ -194,6 +215,10 @@ export default {
     getSimilarMovie(this.$route.params.id).then(res => {
       this.similarMovie = res.data
       console.log(res.data)
+      this.loading = false
+    })
+    getCommentsByMovieId(this.$route.params.id).then(res => {
+      this.popularComments = res.data
       this.loading = false
     })
   },
@@ -324,6 +349,41 @@ export default {
       font-size: 13px;
       color: #111111;
       text-indent: 26px;
+    }
+  }
+  .comments-section {
+    margin-bottom: 20px;
+    h2 {
+      font-size: 16px;
+      color: #007722;
+      margin: 20px 0 15px 0;
+    }
+    .comment-contain {
+      width: 100%;
+      border-top: 1px solid #dbdbdb;
+      padding-top: 10px;
+      margin-top: 10px;
+      .top {
+        display: flex;
+        flex-direction: row;
+        // margin-bottom: 10px;
+        // justify-content: center;
+        img {
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          margin-right: 10px;
+        }
+        span {
+          margin-right: 10px;
+          font-size: 13px;
+          color: #3377aa;
+        }
+      }
+      span {
+        font-size: 13px;
+        color: #494949;
+      }
     }
   }
 }
