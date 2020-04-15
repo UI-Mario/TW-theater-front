@@ -185,6 +185,7 @@ export default {
     // background: rebeccapurple;
     background-color: #8a8a8a;
     box-shadow: 1px 1px 1px rgba(0,0,0,0.16);
+    cursor: pointer;
     img {
       width: 40%;
       height: 40%;

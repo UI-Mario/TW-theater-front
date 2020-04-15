@@ -1,14 +1,16 @@
 <template>
   <div class="slide-item">
-    <div class="img-contain" @click="goTo(movieitem.id)">
-      <!-- <router-link :to="'/subject/'+movieitem.id"> -->
-        <img
-          class="poster"
-          :src="movieitem.images"
-          alt=""
-        >
-      <!-- </router-link> -->
-    </div>
+    <!-- <div class="img-contain" @click="goTo(movieitem.id)"> -->
+      <router-link :to="'/subject/'+movieitem.id">
+        <div class="img-contain" >
+          <img
+            class="poster"
+            :src="movieitem.images"
+            alt=""
+          >
+        </div>
+      </router-link>
+    <!-- </div> -->
     <div class="contain">
       {{movieitem.title}}
       <span class="rate">{{movieitem.rating}}</span>
@@ -22,12 +24,6 @@ export default {
   props: ['movieitem'],
   data () {
     return {}
-  },
-  methods: {
-    goTo: function (id) {
-      this.$router.replace('/subject/' + id)
-      // this.$router.go(0)
-    }
   }
 }
 </script>

@@ -84,7 +84,7 @@
           <div class="right">
             <div>
               <Rate :rating="movie.rating / 2" />
-              <span>{{ movie.ratings_count }}人评价</span>
+              <span>{{ movie.ratingCount }}人评价</span>
             </div>
           </div>
         </div>
