@@ -10,7 +10,7 @@
           <div>
             <p
               style="font-size: 17px; color: #000; margin-bottom: 10px;"
-              v-if="movieitem.title!==movieitem.original_title"
+              v-if="movieitem.title!==movieitem.originalTitle"
             >
               {{movieitem.title}}{{movieitem.originalTitle}}
             </p>
