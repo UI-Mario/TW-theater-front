@@ -14,7 +14,7 @@
     </div>
     <div class="douban-container">
       <router-link to="/">
-          <span>豆瓣电影</span>
+          <span>思沃影院</span>
       </router-link>
       <input placeholder="电影、影人、影院、电视剧" ref="searchInput">
       <div @click="saveText()" class="search-btn">
